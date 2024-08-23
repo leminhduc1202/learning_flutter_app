@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:learning_flutter/app_mini/basic_quiz/basic_quiz_screen.dart';
 import 'package:learning_flutter/app_mini/pdf_generation/pdf_generating_screen.dart';
 
+import 'app_mini/flip_card_learning_language/learning_language_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -19,6 +21,8 @@ class MyApp extends StatelessWidget {
             const BasicQuizScreen(),
         PdfGeneratingScreen.routeNamePdfGen: (context) =>
             PdfGeneratingScreen(),
+        LearningLanguageScreen.routeNameLearningLanguage : (context) =>
+            const LearningLanguageScreen(),
         //add more for register
       },
       title: 'Flutter App',
@@ -74,6 +78,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     context, PdfGeneratingScreen.routeNamePdfGen);
               },
               child: const Text('Pdf Generating'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                    context, LearningLanguageScreen.routeNameLearningLanguage);
+              },
+              child: const Text('Learning Language'),
             ),
             Text(
               'You have pushed the button this many times: $_counter',
