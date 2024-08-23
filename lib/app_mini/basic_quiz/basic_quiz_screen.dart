@@ -1,0 +1,190 @@
+import 'package:flutter/material.dart';
+
+class BasicQuizScreen extends StatefulWidget {
+  static const routeNameBasicQuiz = "/basicQuiz";
+
+  const BasicQuizScreen({super.key});
+
+  @override
+  State<BasicQuizScreen> createState() => _BasicQuizScreenState();
+}
+
+class _BasicQuizScreenState extends State<BasicQuizScreen> {
+  final _questions = const [
+    {
+      'questionText': 'Q1. Who created Flutter?',
+      'answers': [
+        {'text': 'Facebook', 'score': -2},
+        {'text': 'Adobe', 'score': -2},
+        {'text': 'Google', 'score': 10},
+        {'text': 'Microsoft', 'score': -2},
+      ],
+    },
+    {
+      'questionText': 'Q2. What is Flutter?',
+      'answers': [
+        {'text': 'Android Development Kit', 'score': -2},
+        {'text': 'IOS Development Kit', 'score': -2},
+        {'text': 'Web Development Kit', 'score': -2},
+        {
+          'text':
+              'SDK to build beautiful IOS, Android, Web & Desktop Native Apps',
+          'score': 10
+        },
+      ],
+    },
+    {
+      'questionText': ' Q3. Which programming language is used by Flutter',
+      'answers': [
+        {'text': 'Ruby', 'score': -2},
+        {'text': 'Dart', 'score': 10},
+        {'text': 'C++', 'score': -2},
+        {'text': 'Kotlin', 'score': -2},
+      ],
+    },
+    {
+      'questionText': 'Q4. Who created Dart programming language?',
+      'answers': [
+        {'text': 'Lars Bak and Kasper Lund', 'score': 10},
+        {'text': 'Brendan Eich', 'score': -2},
+        {'text': 'Bjarne Stroustrup', 'score': -2},
+        {'text': 'Jeremy Ashkenas', 'score': -2},
+      ],
+    },
+    {
+      'questionText':
+          'Q5. Is Flutter for Web and Desktop available in stable version?',
+      'answers': [
+        {
+          'text': 'Yes',
+          'score': -2,
+        },
+        {'text': 'No', 'score': 10},
+      ],
+    },
+  ];
+
+  var _questionIndex = 0;
+  var _totalScore = 0;
+
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
+
+  void _answerQuestion(int score) {
+    _totalScore += score;
+
+    setState(() {
+      _questionIndex = _questionIndex + 1;
+    });
+    // ignore: avoid_print
+    print(_questionIndex);
+    if (_questionIndex < _questions.length) {
+      // ignore: avoid_print
+      print('We have more questions!');
+    } else {
+      // ignore: avoid_print
+      print('No more questions!');
+    }
+  }
+
+  String get resultPhrase {
+    String resultText;
+    if (_totalScore >= 41) {
+      resultText = 'You are awesome!';
+      print(_totalScore);
+    } else if (_totalScore >= 31) {
+      resultText = 'Pretty likeable!';
+      print(_totalScore);
+    } else if (_totalScore >= 21) {
+      resultText = 'You need to work more!';
+    } else if (_totalScore >= 1) {
+      resultText = 'You need to work hard!';
+    } else {
+      resultText = 'This is a poor score!';
+      print(_totalScore);
+    }
+    return resultText;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF00E676),
+        title: const Text("Basic Quiz"),
+      ),
+      body: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: _questionIndex < _questions.length
+              ? Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        _questions[_questionIndex]["questionText"].toString(),
+                        style: const TextStyle(fontSize: 28),
+                        textAlign: TextAlign.center,
+                      ), //Text
+                    ),
+                    ...(_questions[_questionIndex]["answers"]
+                            as List<Map<String, Object>>)
+                        .map((answer) {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () =>
+                              _answerQuestion(answer["score"] as int),
+                          style: ButtonStyle(
+                              textStyle: WidgetStateProperty.all(
+                                  const TextStyle(color: Colors.white)),
+                              backgroundColor:
+                                  WidgetStateProperty.all(Colors.green)),
+                          child: Text(
+                            answer['text'] as String,
+                            style: const TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                )
+              : Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        resultPhrase,
+                        style: const TextStyle(
+                            fontSize: 26, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ), //Text
+                      Text(
+                        'Score ' '$_totalScore',
+                        style: const TextStyle(
+                            fontSize: 36, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ), //Text
+                      ElevatedButton(
+                        onPressed: _resetQuiz,
+                        style: ButtonStyle(
+                            textStyle: WidgetStateProperty.all(
+                                const TextStyle(color: Colors.white)),
+                            backgroundColor:
+                                WidgetStateProperty.all(Colors.green)),
+                        child: const Text(
+                          "Restart Quiz",
+                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                )),
+    );
+  }
+}
