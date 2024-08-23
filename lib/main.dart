@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learning_flutter/app_mini/basic_quiz/basic_quiz_screen.dart';
+import 'package:learning_flutter/app_mini/pdf_generation/pdf_generating_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,12 +17,15 @@ class MyApp extends StatelessWidget {
       routes: {
         BasicQuizScreen.routeNameBasicQuiz: (context) =>
             const BasicQuizScreen(),
+        PdfGeneratingScreen.routeNamePdfGen: (context) =>
+            PdfGeneratingScreen(),
         //add more for register
       },
       title: 'Flutter App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        visualDensity: VisualDensity.adaptivePlatformDensity
       ),
       home: const MyHomePage(title: 'Flutter App'),
     );
@@ -63,6 +67,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     context, BasicQuizScreen.routeNameBasicQuiz);
               },
               child: const Text('Basic Quiz'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                    context, PdfGeneratingScreen.routeNamePdfGen);
+              },
+              child: const Text('Pdf Generating'),
             ),
             Text(
               'You have pushed the button this many times: $_counter',
